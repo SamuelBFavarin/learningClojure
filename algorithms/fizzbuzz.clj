@@ -1,5 +1,5 @@
 ; This is a simple algorithm Fizzbuzz
-; Write a program that for multiples of '3' print "Fizz" instead of the number and for the multiples of '5' print "Buzz".
+; Write a program that for multiples of '3' print "Fizz" instead of the number and for the multiples of '5'- print "Buzz".
 
 (defn rest_of_div [dividend divisor]
   (= 0 (mod dividend divisor)))
