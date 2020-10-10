@@ -8,9 +8,9 @@
 
 ; the financial transactions
 (def transaction
-  [{:value 33.0 :type "expense" :comment "launch" :date "19/11/2016"}
-   {:value 2700 :type "income" :comment "job" :date "01/12/2016"}
-   {:value 29 :type "expense" :comment "Clojure Book" :date "03/12/2016"}])
+  [{:value 33.0 :currency "R$" :type "expense" :comment "launch" :date "19/11/2016"}
+   {:value 2700 :currency "R$" :type "income" :comment "job" :date "01/12/2016"}
+   {:value 29 :currency "R$" :type "expense" :comment "Clojure Book" :date "03/12/2016"}])
 
 ; function to resume a transaction
 (defn resume [transaction]
@@ -73,3 +73,26 @@
 (->> (filter expense? transaction)
      (map only-value)
      (reduce +))
+
+; lets create a resume text by transactions:
+; first, lets flag a value as "-" to expense or "+" to income 
+(defn flagged-value [transaction]
+  (let [currency (:currency transaction "R$") value (:value transaction)]
+    (if (= (:type transaction) "expense")
+      (str currency " -" value)
+      (str currency " +" value))))
+
+(flagged-value (first transaction))
+(flagged-value (second transaction))
+
+; now, lets create a function to show a transaction value as "date => R$ +- value"
+(defn date-value [transaction]
+  (str (:date transaction) " => " (flagged-value transaction)))
+
+(date-value (first transaction))
+
+(defn yuan-transaction [transaction]
+  (assoc transaction :value (* 2.15 (:value transaction))
+         :currency "¥"))
+
+(yuan-transaction (first transaction))
